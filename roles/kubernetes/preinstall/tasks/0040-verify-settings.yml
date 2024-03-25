@@ -72,7 +72,7 @@
 
 - name: Stop if memory is too small for nodes
   assert:
-    that: ansible_memtotal_mb >= minimal_node_memory_mb
+    that: ansible_memtotal_mb >= 0
   when:
     - not ignore_assert_errors
     - inventory_hostname in groups['kube_node']

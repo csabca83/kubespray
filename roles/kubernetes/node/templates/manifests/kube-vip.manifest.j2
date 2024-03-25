@@ -48,11 +48,11 @@ spec:
     - name: vip_leaderelection
       value: "true"
     - name: vip_leaseduration
-      value: {{ kube_vip_leaseduration | string | to_json }}
+      value: "5"
     - name: vip_renewdeadline
-      value: {{ kube_vip_renewdeadline | string | to_json }}
+      value: "3"
     - name: vip_retryperiod
-      value: {{ kube_vip_retryperiod | string | to_json }}
+      value: "1"
 {% endif %}
 {% if kube_vip_bgp_enabled %}
     - name: bgp_enable

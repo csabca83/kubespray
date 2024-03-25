@@ -48,12 +48,6 @@ spec:
         {{ dns_autoscaler_extra_tolerations | list | to_nice_yaml(indent=2) | indent(8) }}
 {% endif %}
       affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - topologyKey: "kubernetes.io/hostname"
-            labelSelector:
-              matchLabels:
-                k8s-app: dns-autoscaler{{ coredns_ordinal_suffix }}
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 100

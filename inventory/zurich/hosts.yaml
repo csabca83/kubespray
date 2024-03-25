@@ -1,0 +1,46 @@
+all:
+  hosts:
+    master:
+      ansible_host: ####
+      ansible_ssh_private_key_file: ####
+      ansible_user: ####
+      ip: 10.0.0.29
+      access_ip: 10.0.0.29
+    k8s-worker1:
+      ansible_host: ####
+      ansible_ssh_private_key_file: ####
+      ansible_user: ####
+      ip: 10.0.0.30
+      access_ip: 10.0.0.30
+    k8s-worker2:
+      ansible_host: ####
+      ansible_ssh_private_key_file: ####
+      ansible_user: ####
+      ip: 10.0.0.162
+      access_ip: 10.0.0.162
+  children:
+    kube_control_plane:
+      hosts:
+        master:
+    kube_node:
+      hosts:
+        master:
+        k8s-worker1:
+          node_taints:
+            - "dedicated=soft-process:NoSchedule"
+          node_labels:
+            node-role.kubernetes.io/worker: ""
+        k8s-worker2:
+          node_taints:
+            - "dedicated=soft-process:NoSchedule"
+          node_labels:
+            node-role.kubernetes.io/worker: ""
+    etcd:
+      hosts:
+        master:
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+    calico_rr:
+      hosts: {}
