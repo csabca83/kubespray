@@ -75,13 +75,13 @@ image_arch: "{{ host_architecture | default('amd64') }}"
 
 # Versions
 kubeadm_version: "{{ kube_version }}"
-crun_version: 1.8.5
+crun_version: 1.14.4
 runc_version: v1.1.12
 kata_containers_version: 3.1.3
 youki_version: 0.1.0
-gvisor_version: 20230807
+gvisor_version: 20240305
 containerd_version: 1.7.13
-cri_dockerd_version: 0.3.9
+cri_dockerd_version: 0.3.11
 
 # this is relevant when container_manager == 'docker'
 docker_containerd_version: 1.6.28
@@ -117,7 +117,7 @@ cni_version: "v1.3.0"
 weave_version: 2.8.1
 
 cilium_version: "v1.13.4"
-cilium_cli_version: "v0.15.0"
+cilium_cli_version: "v0.16.0"
 cilium_enable_hubble: false
 
 kube_ovn_version: "v1.11.5"
@@ -127,7 +127,7 @@ multus_version: "v3.8"
 helm_version: "v3.14.2"
 nerdctl_version: "1.7.4"
 krew_version: "v0.4.4"
-skopeo_version: "v1.13.2"
+skopeo_version: "v1.14.2"
 
 # Get kubernetes major version (i.e. 1.17.4 => 1.17)
 kube_major_version: "{{ kube_version | regex_replace('^v([0-9])+\\.([0-9]+)\\.[0-9]+', 'v\\1.\\2') }}"
@@ -139,9 +139,9 @@ pod_infra_supported_versions:
 pod_infra_version: "{{ pod_infra_supported_versions[kube_major_version] }}"
 
 etcd_supported_versions:
-  v1.29: "v3.5.10"
-  v1.28: "v3.5.10"
-  v1.27: "v3.5.10"
+  v1.29: "v3.5.12"
+  v1.28: "v3.5.12"
+  v1.27: "v3.5.12"
 etcd_version: "{{ etcd_supported_versions[kube_major_version] }}"
 
 crictl_supported_versions:
@@ -152,8 +152,8 @@ crictl_version: "{{ crictl_supported_versions[kube_major_version] }}"
 
 crio_supported_versions:
   v1.29: v1.29.1
-  v1.28: v1.28.1
-  v1.27: v1.27.1
+  v1.28: v1.28.4
+  v1.27: v1.27.4
 crio_version: "{{ crio_supported_versions[kube_major_version] }}"
 
 # Scheduler plugins doesn't build for K8s 1.28 yet
@@ -163,33 +163,38 @@ scheduler_plugins_supported_versions:
   v1.27: v0.27.8
 scheduler_plugins_version: "{{ scheduler_plugins_supported_versions[kube_major_version] }}"
 
-yq_version: "v4.35.2"
+yq_version: "v4.42.1"
+
+github_url: https://github.com
+dl_k8s_io_url: https://dl.k8s.io
+storage_googleapis_url: https://storage.googleapis.com
+get_helm_url: https://get.helm.sh
 
 # Download URLs
-kubelet_download_url: "https://dl.k8s.io/release/{{ kube_version }}/bin/linux/{{ image_arch }}/kubelet"
-kubectl_download_url: "https://dl.k8s.io/release/{{ kube_version }}/bin/linux/{{ image_arch }}/kubectl"
-kubeadm_download_url: "https://dl.k8s.io/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/kubeadm"
-etcd_download_url: "https://github.com/etcd-io/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-{{ image_arch }}.tar.gz"
-cni_download_url: "https://github.com/containernetworking/plugins/releases/download/{{ cni_version }}/cni-plugins-linux-{{ image_arch }}-{{ cni_version }}.tgz"
-calicoctl_download_url: "https://github.com/projectcalico/calico/releases/download/{{ calico_ctl_version }}/calicoctl-linux-{{ image_arch }}"
-calico_crds_download_url: "https://github.com/projectcalico/calico/archive/{{ calico_version }}.tar.gz"
-ciliumcli_download_url: "https://github.com/cilium/cilium-cli/releases/download/{{ cilium_cli_version }}/cilium-linux-{{ image_arch }}.tar.gz"
-crictl_download_url: "https://github.com/kubernetes-sigs/cri-tools/releases/download/{{ crictl_version }}/crictl-{{ crictl_version }}-{{ ansible_system | lower }}-{{ image_arch }}.tar.gz"
-crio_download_url: "https://storage.googleapis.com/cri-o/artifacts/cri-o.{{ image_arch }}.{{ crio_version }}.tar.gz"
-helm_download_url: "https://get.helm.sh/helm-{{ helm_version }}-linux-{{ image_arch }}.tar.gz"
-runc_download_url: "https://github.com/opencontainers/runc/releases/download/{{ runc_version }}/runc.{{ image_arch }}"
-crun_download_url: "https://github.com/containers/crun/releases/download/{{ crun_version }}/crun-{{ crun_version }}-linux-{{ image_arch }}"
-youki_download_url: "https://github.com/containers/youki/releases/download/v{{ youki_version }}/youki_{{ youki_version | regex_replace('\\.', '_') }}_linux.tar.gz"
-kata_containers_download_url: "https://github.com/kata-containers/kata-containers/releases/download/{{ kata_containers_version }}/kata-static-{{ kata_containers_version }}-{{ ansible_architecture }}.tar.xz"
+kubelet_download_url: "{{ dl_k8s_io_url }}/release/{{ kube_version }}/bin/linux/{{ image_arch }}/kubelet"
+kubectl_download_url: "{{ dl_k8s_io_url }}/release/{{ kube_version }}/bin/linux/{{ image_arch }}/kubectl"
+kubeadm_download_url: "{{ dl_k8s_io_url }}/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/kubeadm"
+etcd_download_url: "{{ github_url }}/etcd-io/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-{{ image_arch }}.tar.gz"
+cni_download_url: "{{ github_url }}/containernetworking/plugins/releases/download/{{ cni_version }}/cni-plugins-linux-{{ image_arch }}-{{ cni_version }}.tgz"
+calicoctl_download_url: "{{ github_url }}/projectcalico/calico/releases/download/{{ calico_ctl_version }}/calicoctl-linux-{{ image_arch }}"
+calico_crds_download_url: "{{ github_url }}/projectcalico/calico/archive/{{ calico_version }}.tar.gz"
+ciliumcli_download_url: "{{ github_url }}/cilium/cilium-cli/releases/download/{{ cilium_cli_version }}/cilium-linux-{{ image_arch }}.tar.gz"
+crictl_download_url: "{{ github_url }}/kubernetes-sigs/cri-tools/releases/download/{{ crictl_version }}/crictl-{{ crictl_version }}-{{ ansible_system | lower }}-{{ image_arch }}.tar.gz"
+crio_download_url: "{{ storage_googleapis_url }}/cri-o/artifacts/cri-o.{{ image_arch }}.{{ crio_version }}.tar.gz"
+helm_download_url: "{{ get_helm_url }}/helm-{{ helm_version }}-linux-{{ image_arch }}.tar.gz"
+runc_download_url: "{{ github_url }}/opencontainers/runc/releases/download/{{ runc_version }}/runc.{{ image_arch }}"
+crun_download_url: "{{ github_url }}/containers/crun/releases/download/{{ crun_version }}/crun-{{ crun_version }}-linux-{{ image_arch }}"
+youki_download_url: "{{ github_url }}/containers/youki/releases/download/v{{ youki_version }}/youki_{{ youki_version | regex_replace('\\.', '_') }}_linux.tar.gz"
+kata_containers_download_url: "{{ github_url }}/kata-containers/kata-containers/releases/download/{{ kata_containers_version }}/kata-static-{{ kata_containers_version }}-{{ ansible_architecture }}.tar.xz"
 # gVisor only supports amd64 and uses x86_64 to in the download link
-gvisor_runsc_download_url: "https://storage.googleapis.com/gvisor/releases/release/{{ gvisor_version }}/{{ ansible_architecture }}/runsc"
-gvisor_containerd_shim_runsc_download_url: "https://storage.googleapis.com/gvisor/releases/release/{{ gvisor_version }}/{{ ansible_architecture }}/containerd-shim-runsc-v1"
-nerdctl_download_url: "https://github.com/containerd/nerdctl/releases/download/v{{ nerdctl_version }}/nerdctl-{{ nerdctl_version }}-{{ ansible_system | lower }}-{{ image_arch }}.tar.gz"
-krew_download_url: "https://github.com/kubernetes-sigs/krew/releases/download/{{ krew_version }}/krew-{{ host_os }}_{{ image_arch }}.tar.gz"
-containerd_download_url: "https://github.com/containerd/containerd/releases/download/v{{ containerd_version }}/containerd-{{ containerd_version }}-linux-{{ image_arch }}.tar.gz"
-cri_dockerd_download_url: "https://github.com/Mirantis/cri-dockerd/releases/download/v{{ cri_dockerd_version }}/cri-dockerd-{{ cri_dockerd_version }}.{{ image_arch }}.tgz"
-skopeo_download_url: "https://github.com/lework/skopeo-binary/releases/download/{{ skopeo_version }}/skopeo-linux-{{ image_arch }}"
-yq_download_url: "https://github.com/mikefarah/yq/releases/download/{{ yq_version }}/yq_linux_{{ image_arch }}"
+gvisor_runsc_download_url: "{{ storage_googleapis_url }}/gvisor/releases/release/{{ gvisor_version }}/{{ ansible_architecture }}/runsc"
+gvisor_containerd_shim_runsc_download_url: "{{ storage_googleapis_url }}/gvisor/releases/release/{{ gvisor_version }}/{{ ansible_architecture }}/containerd-shim-runsc-v1"
+nerdctl_download_url: "{{ github_url }}/containerd/nerdctl/releases/download/v{{ nerdctl_version }}/nerdctl-{{ nerdctl_version }}-{{ ansible_system | lower }}-{{ image_arch }}.tar.gz"
+krew_download_url: "{{ github_url }}/kubernetes-sigs/krew/releases/download/{{ krew_version }}/krew-{{ host_os }}_{{ image_arch }}.tar.gz"
+containerd_download_url: "{{ github_url }}/containerd/containerd/releases/download/v{{ containerd_version }}/containerd-{{ containerd_version }}-linux-{{ image_arch }}.tar.gz"
+cri_dockerd_download_url: "{{ github_url }}/Mirantis/cri-dockerd/releases/download/v{{ cri_dockerd_version }}/cri-dockerd-{{ cri_dockerd_version }}.{{ image_arch }}.tgz"
+skopeo_download_url: "{{ github_url }}/lework/skopeo-binary/releases/download/{{ skopeo_version }}/skopeo-linux-{{ image_arch }}"
+yq_download_url: "{{ github_url }}/mikefarah/yq/releases/download/{{ yq_version }}/yq_linux_{{ image_arch }}"
 
 etcd_binary_checksum: "{{ etcd_binary_checksums[image_arch][etcd_version] }}"
 cni_binary_checksum: "{{ cni_binary_checksums[image_arch][cni_version] }}"
