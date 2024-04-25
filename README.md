@@ -163,12 +163,12 @@ Note: Upstart/SysV init based OS types are not supported.
   - [kubernetes](https://github.com/kubernetes/kubernetes) v1.29.3
   - [etcd](https://github.com/etcd-io/etcd) v3.5.12
   - [docker](https://www.docker.com/) v24.0 (see [Note](#container-runtime-notes))
-  - [containerd](https://containerd.io/) v1.7.13
+  - [containerd](https://containerd.io/) v1.7.15
   - [cri-o](http://cri-o.io/) v1.29.1 (experimental: see [CRI-O Note](docs/cri-o.md). Only on fedora, ubuntu and centos based OS)
 - Network Plugin
   - [cni-plugins](https://github.com/containernetworking/plugins) v1.2.0
   - [calico](https://github.com/projectcalico/calico) v3.27.2
-  - [cilium](https://github.com/cilium/cilium) v1.13.4
+  - [cilium](https://github.com/cilium/cilium) v1.15.4
   - [flannel](https://github.com/flannel-io/flannel) v0.22.0
   - [kube-ovn](https://github.com/alauda/kube-ovn) v1.11.5
   - [kube-router](https://github.com/cloudnativelabs/kube-router) v2.0.0
